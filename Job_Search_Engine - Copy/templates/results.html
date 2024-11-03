@@ -1,0 +1,310 @@
+<<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Results Page</title>
+  <style>
+    @import "bourbon@5.*";
+
+// Breakpoints
+$bp-maggie: 15em; 
+$bp-lisa: 30em;
+$bp-bart: 48em;
+$bp-marge: 62em;
+$bp-homer: 75em;
+
+// Styles
+html {
+  box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+body {
+  font-family: $font-stack-system;
+  color: rgba(0,0,0,.87);
+}
+
+a {
+  color: rgba(38,137,13,1);
+  
+  &:hover,
+  &:focus {
+    color: rgba(4,106,56,1); 
+  }
+}
+
+.container {
+  margin: 5% 3%;
+  
+  @media (min-width: $bp-bart) {
+    margin: 2%; 
+  }
+  
+  @media (min-width: $bp-homer) {
+    margin: 2em auto;
+    max-width: $bp-homer;
+  }
+}
+
+.responsive-table {
+  width: 100%;
+  margin-bottom: 1.5em;
+  border-spacing: 0;
+  
+  @media (min-width: $bp-bart) {
+    font-size: .9em; 
+  }
+  
+  @media (min-width: $bp-marge) {
+    font-size: 1em; 
+  }
+  
+  thead {
+    // Accessibly hide <thead> on narrow viewports
+    position: absolute;
+    clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
+    padding: 0;
+    border: 0;
+    height: 1px; 
+    width: 1px; 
+    overflow: hidden;
+    
+    @media (min-width: $bp-bart) {
+      // Unhide <thead> on wide viewports
+      position: relative;
+      clip: auto;
+      height: auto;
+      width: auto;
+      overflow: auto;
+    }
+    
+    th {
+      background-color: #295F98;
+      border: 1px solid rgba(134,188,37,1);
+      font-weight: normal;
+      text-align: center;
+      color: white;
+      
+      &:first-of-type {
+        text-align: left; 
+      }
+    }
+  }
+  
+  // Set these items to display: block for narrow viewports
+  tbody,
+  tr,
+  th,
+  td {
+    display: block;
+    padding: 0;
+    text-align: left;
+    white-space: normal;
+  }
+  
+  tr {   
+    @media (min-width: $bp-bart) {
+      // Undo display: block 
+      display: table-row; 
+    }
+  }
+  
+  th,
+  td {
+    padding: .5em;
+    vertical-align: middle;
+    
+    @media (min-width: $bp-lisa) {
+      padding: .75em .5em; 
+    }
+    
+    @media (min-width: $bp-bart) {
+      // Undo display: block 
+      display: table-cell;
+      padding: .5em;
+    }
+    
+    @media (min-width: $bp-marge) {
+      padding: .75em .5em; 
+    }
+    
+    @media (min-width: $bp-homer) {
+      padding: .75em; 
+    }
+  }
+  
+  caption {
+    margin-bottom: 1em;
+    font-size: 1em;
+    font-weight: bold;
+    text-align: center;
+    
+    @media (min-width: $bp-bart) {
+      font-size: 1.5em;
+    }
+  }
+  
+  tfoot {
+    font-size: .8em;
+    font-style: italic;
+    
+    @media (min-width: $bp-marge) {
+      font-size: .9em;
+    }
+  }
+  
+  tbody {
+    @media (min-width: $bp-bart) {
+      // Undo display: block 
+      display: table-row-group; 
+    }
+    
+    tr {
+      margin-bottom: 1em;
+      
+      @media (min-width: $bp-bart) {
+        // Undo display: block 
+        display: table-row;
+        border-width: 1px;
+      }
+      
+      &:last-of-type {
+        margin-bottom: 0; 
+      }
+      
+      &:nth-of-type(even) {
+        @media (min-width: $bp-bart) {
+          background-color: rgba(0,0,0,.12);
+        }
+      }
+    }
+    
+    th[scope="row"] {
+      background-color: rgba(38,137,13,1);
+      color: white;
+      
+      @media (min-width: $bp-lisa) {
+        border-left: 1px solid rgba(134,188,37,1);
+        border-bottom: 1px solid rgba(134,188,37,1);
+      }
+      
+      @media (min-width: $bp-bart) {
+        background-color: transparent;
+        color: rgba(0,0,0.87);
+        text-align: left;
+      }
+    }
+    
+    td {
+      text-align: right;
+      
+      @media (min-width: $bp-bart) {
+        border-left: 1px solid rgba(134,188,37,1);
+        border-bottom: 1px solid rgba(134,188,37,1);
+        text-align: center; 
+      }
+      
+      &:last-of-type {
+        @media (min-width: $bp-bart) {
+          border-right: 1px solid rgba(134,188,37,1);
+        } 
+      }
+    }
+    
+    td[data-type=currency] {
+      text-align: right; 
+    }
+    
+    td[data-title]:before {
+      content: attr(data-title);
+      float: left;
+      font-size: .8em;
+      color: rgba(0,0,0,.54);
+      
+      @media (min-width: $bp-lisa) {
+        font-size: .9em; 
+      }
+      
+      @media (min-width: $bp-bart) {
+        // Don’t show data-title labels 
+        content: none; 
+      }
+    } 
+  }
+}
+  </style>
+</head>
+<body>
+<div class="container">
+  <table class="responsive-table">
+    <caption>Your Job Search Results For: {{ search_term }}</caption>
+    <thead>
+      <tr>
+        <th scope="col">Business Title</th>
+        <th scope="col">Job Id</th>
+        <th scope="col">Agency</th>
+        <th scope="col">No. Of Openings</th>
+        <th scope="col">Level</th>
+        <th scope="col">Salary From Range</th>
+        <th scope="col">Salary To Range</th>
+        <th scope="col">Save Data</th>
+      </tr>
+    </thead>
+    <tfoot>
+      <tr>
+        <td colspan="7">Sources: <a href="" rel="external">NYC_Jobs.csv Data</a> &amp; <a href="" rel="external">Government Data</a>. Data is current as of March 31, 2021. <a href="{{ url_for('index') }}">Go back</a></td>
+      </tr>
+    </tfoot>
+<!--     <tbody>
+      {% for row in results %}
+      <tr>
+        <th scope="row" name="business_title" value="{{ row['Business Title'] }}">{{ row['Business Title'] }}</th>
+        <td data-title="JobID" name="job_id" value="{{ row['JOB ID'] }}">{{ row['JOB ID'] }}</td>
+        <td data-title="Agents" name="agency" value="{{ row['Agency'] }}">{{ row['Agency'] }}</td>
+        <td data-title="Position" data-type="currency" name="positions" value="{{ row['# Of Positions'] }}">{{ row['# Of Positions'] }}</td>
+        <td data-title="standing" data-type="currency" name="level" value="{{ row['Level'] }}">{{ row['Level'] }}</td>
+        <td data-title="salFrom" data-type="currency" name="salary_from" value="{{ row['Salary Range From'] }}">{{ row['Salary Range From'] }}</td>
+        <td data-title="salTo" data-type="currency" name="salary_to" value="{{ row['Salary Range To'] }}">{{ row['Salary Range To'] }}</td>
+        <td data-title ="submits"><button type="submit">Save</button></td>
+      </tr>
+      {% endfor %}
+    </tbody> -->
+    <tbody>
+    {% for row in results %}
+    <tr>
+        <form action="{{ url_for('save_row') }}" method="POST">
+            <th scope="row">{{ row['Business Title'] }}</th>
+            <td>{{ row['JOB ID'] }}</td>
+            <td>{{ row['Agency'] }}</td>
+            <td>{{ row['# Of Positions'] }}</td>
+            <td>{{ row['Level'] }}</td>
+            <td>{{ row['Salary Range From'] }}</td>
+            <td>{{ row['Salary Range To'] }}</td>
+            <td>
+                <!-- Hidden inputs to submit data -->
+                <input type="hidden" name="business_title" value="{{ row['Business Title'] }}">
+                <input type="hidden" name="job_id" value="{{ row['JOB ID'] }}">
+                <input type="hidden" name="agency" value="{{ row['Agency'] }}">
+                <input type="hidden" name="positions" value="{{ row['# Of Positions'] }}">
+                <input type="hidden" name="level" value="{{ row['Level'] }}">
+                <input type="hidden" name="salary_from" value="{{ row['Salary Range From'] }}">
+                <input type="hidden" name="salary_to" value="{{ row['Salary Range To'] }}">
+                
+                <button type="submit">Save</button>
+            </td>
+        </form>
+    </tr>
+    {% endfor %}
+</tbody>
+
+  </table>
+</div>
+</body>
+</html>
+
